@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port  = 3000;
 
 
@@ -46,6 +46,29 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
+
+    
+app.delete("/teachers/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const filter = { _id: new ObjectId(id) };
+  const result = await teachers.deleteOne(filter);
+  res.send(result)
+ 
+      
+ 
+});
+
+    // app.delete("/teachers/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const filter = { _id:new ObjectId(id) };
+    
+    //   const result = await teachers.deleteOne(filter);
+    //   res.send(result)
+     
+          
+     
+    // });
   
 
     app.post("/teacher" , async(req,res)=>{
@@ -53,7 +76,11 @@ async function run() {
           const result  = await teachers.insertOne(new_teacher)
           res.send(result)
            
+
+
     })
+
+
 
 
    //*********** Teacher DB Collection **********//
@@ -72,6 +99,17 @@ async function run() {
     res.send(result)
      
 })
+
+app.delete("/notices/:id", async (req, res) => {
+  const id = req.params.id;
+  const filter = { _id: new ObjectId(id) };
+
+  const result = await notice.deleteOne(filter);
+  res.send(result)
+ 
+      
+ 
+});
 
   //*********** Notice  DB Collection **********//
 
